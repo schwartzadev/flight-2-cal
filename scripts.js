@@ -60,17 +60,20 @@ $( "#search" ).click(function() {  // animate the settings cog onclick
 		$("#results-detail-header").text(
 			findEntity(airlinePrefix, airlines)['name'] + ' ' + airlinePrefix + flightNumber + ' ('+flightTime.get('hours')+'h '+flightTime.get('minutes')+'m)'
 		);  // set table header
-		console.log(makeGoogleCalendarURL(
-			flightCode,
-			departureAirport['city'],
-			arrivalAirport['city'],
-			departureAirport['name'],
-			localDepartureTime,
-			localArrivalTime,
-			departureTimezone,
-			departureTime.format('YYYYMMDD[T]HHmmSS'),
-			arrivalTime.tz(departureTimezone).format('YYYYMMDD[T]HHmmSS')
-		));
+		$("#calendar-add").attr(
+			"href",
+			makeGoogleCalendarURL(
+				flightCode,
+				departureAirport['city'],
+				arrivalAirport['city'],
+				departureAirport['name'],
+				localDepartureTime,
+				localArrivalTime,
+				departureTimezone,
+				departureTime.format('YYYYMMDD[T]HHmmSS'),
+				arrivalTime.tz(departureTimezone).format('YYYYMMDD[T]HHmmSS')
+			)
+		);
 	});
 });
 
