@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Flight 2 Calendar</title>
-	<script src='./config.js'></script>
-	<link rel="stylesheet" href="./styles.css">
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.21/moment-timezone-with-data.min.js"></script>
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Flight 2 Calendar</title>
+    <script src='./config.js'></script>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.21/moment-timezone-with-data.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-	<h1>Flight 2 Calendar</h1>
-	<h3>Easily add flights to your Google calendar as events</h3>
+    <h1>Flight 2 Calendar</h1>
+    <h3>Easily add flights to your Google calendar as events</h3>
 
 
 <a href="http://www.google.com/calendar/event?
@@ -25,68 +25,68 @@ action=TEMPLATE
 &trp=false"
 target="_blank" rel="nofollow">Add to my calendar</a>
 
-	<!-- <p>Automatic support for timezones changes</p> -->
-	<div class="search-container">
-		<div class="form-element">
-			<label for="flight-number">What is the flight number/code?</label>
-			<input type="text" name="flight-number" id="search-bar" placeholder="UA21">
-		</div>
-		<div class="form-element">
-			<label for="travel-date">When is this flight?</label>
-			<input name="travel-date" type="text" id="datepicker" placeholder="12/25/2019">
-		</div>
-		<div class="form-element">
-			<button id="search">Search</button>
-		</div>
-	</div>
-	<div id="response">
-		<table class="results-detail">
-			<thead>
-				<tr>
-					<th id="results-detail-header" colspan="2">Jetstar JL345 (12h 34m)</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td class="depart">
-						<p class="table-heading">Depart</p>
-						<h1 class="airport-code"></h1>
-						<p class="airport-name"></p>
-						<p class="flight-time"><span class="time-value">5:28 AM</span> <span class="local-time">(local time)</span></p>
-						<p class="flight-date"></p>
-					</td>
-					<td class="arrive">
-						<p class="table-heading">Arrive</p>
-						<h1 class="airport-code"></h1>
-						<p class="airport-name"></p>
-						<p class="flight-time"><span class="time-value">3:25 PM</span> <span class="local-time">(local time)</span></p>
-						<p class="flight-date"></p>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		<div class="calendar-add-container">
-			<a href="#" id="calendar-add" target="_blank">
-				<button>Add Flight to Calendar</button>
-			</a>
-		</div>
-	</div>
+    <!-- <p>Automatic support for timezones changes</p> -->
+    <div class="search-container">
+        <div class="form-element">
+            <label for="flight-number">What is the flight number/code?</label>
+            <input type="text" name="flight-number" id="search-bar" placeholder="UA21">
+        </div>
+        <div class="form-element">
+            <label for="travel-date">When is this flight?</label>
+            <input name="travel-date" type="text" id="datepicker" placeholder="12/25/2019">
+        </div>
+        <div class="form-element">
+            <button id="search">Search</button>
+        </div>
+    </div>
+    <div id="response">
+        <table class="results-detail">
+            <thead>
+                <tr>
+                    <th id="results-detail-header" colspan="2">Jetstar JL345 (12h 34m)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="depart">
+                        <p class="table-heading">Depart</p>
+                        <h1 class="airport-code"></h1>
+                        <p class="airport-name"></p>
+                        <p class="flight-time"><span class="time-value">5:28 AM</span> <span class="local-time">(local time)</span></p>
+                        <p class="flight-date"></p>
+                    </td>
+                    <td class="arrive">
+                        <p class="table-heading">Arrive</p>
+                        <h1 class="airport-code"></h1>
+                        <p class="airport-name"></p>
+                        <p class="flight-time"><span class="time-value">3:25 PM</span> <span class="local-time">(local time)</span></p>
+                        <p class="flight-date"></p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="calendar-add-container">
+            <a href="#" id="calendar-add" target="_blank">
+                <button>Add Flight to Calendar</button>
+            </a>
+        </div>
+    </div>
 </body>
 <script type="text/javascript" src="./scripts.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-	$("#datepicker").datepicker();
-	// FOR DEVELOPMENT
-	function sleep (time) {
-		return new Promise((resolve) => setTimeout(resolve, time));
-	}
+    $("#datepicker").datepicker();
+    // FOR DEVELOPMENT
+    function sleep (time) {
+        return new Promise((resolve) => setTimeout(resolve, time));
+    }
 
-	$('#search-bar').val('UA2429');
-	$('#datepicker').val('10/26/2018');
-	sleep(20).then(() => {
-		$('#search').click();
-	});
-	// END FOR DEVELOPMENT
+    $('#search-bar').val('UA2429');
+    $('#datepicker').val('10/26/2018');
+    sleep(20).then(() => {
+        $('#search').click();
+    });
+    // END FOR DEVELOPMENT
 });
 
 </script>

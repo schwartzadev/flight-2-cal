@@ -1,109 +1,109 @@
 body {
-	overflow-x: auto;
-	position: relative;
-	margin: 0 auto;
-	padding: 40px 10px 0;
-	width: 90%;
-	max-width: 700px;
+    overflow-x: auto;
+    position: relative;
+    margin: 0 auto;
+    padding: 40px 10px 0;
+    width: 90%;
+    max-width: 700px;
 }
 
 input[type=text], label {
-	font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 input[type=text] {
-	padding: 0;
-	height: 30px;
-	position: relative;
-	left: 0;
-	outline: none;
-	border: 1px solid #cdcdcd;
-	border-color: rgba(0,0,0,.15);
-	background-color: white;
-	font-size: 16px;
+    padding: 0;
+    height: 30px;
+    position: relative;
+    left: 0;
+    outline: none;
+    border: 1px solid #cdcdcd;
+    border-color: rgba(0,0,0,.15);
+    background-color: white;
+    font-size: 16px;
 }
 
 .form-element {
-	margin-bottom: .6em;
-	text-align: center;
+    margin-bottom: .6em;
+    text-align: center;
 }
 
 button {
-	background-color: #0FA896;
-	border: none;
-	color: #fff;
-	padding: 8px 20px;
-	cursor: pointer;
-	text-align: center;
-	border-radius: 4px;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
-	-webkit-transition: background-color 200ms linear;
-	-ms-transition: background-color 200ms linear;
-	transition: background-color 200ms linear;
+    background-color: #0FA896;
+    border: none;
+    color: #fff;
+    padding: 8px 20px;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    -webkit-transition: background-color 200ms linear;
+    -ms-transition: background-color 200ms linear;
+    transition: background-color 200ms linear;
 }
 
 button:hover {
-	background-color: #12C9B4;
+    background-color: #12C9B4;
 }
 
 th, td {
-	border: 2px solid black;
+    border: 2px solid black;
 }
 
 .results-detail {
-	font-family: Arial, Helvetica, sans-serif;
-	width: 90%;
-	margin: 0 auto;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 90%;
+    margin: 0 auto;
 }
 
 .results-detail th {
-	padding: 8px;
-	font-weight: 300;
-	font-size: 1.4em;
+    padding: 8px;
+    font-weight: 300;
+    font-size: 1.4em;
 }
 
 .results-detail td {
-	width: 45%;
+    width: 45%;
 }
 
 .table-heading {
-	text-align: center;
-	font-weight: bold;
-	margin: .5em 0;
-	font-size: 1.4em;
+    text-align: center;
+    font-weight: bold;
+    margin: .5em 0;
+    font-size: 1.4em;
 }
 
 .airport-code {
-	font-size: 4em;
-	text-align: center;
-	margin: 0;
-	font-weight: 700;
+    font-size: 4em;
+    text-align: center;
+    margin: 0;
+    font-weight: 700;
 }
 
 .airport-name {
-	text-align: center;
-	margin-top: -.2em;
-	font-weight: 100;
+    text-align: center;
+    margin-top: -.2em;
+    font-weight: 100;
 }
 
 .flight-time {
-	text-align: center;
-	font-size: 0.9em;
-	margin-bottom: .5em;
+    text-align: center;
+    font-size: 0.9em;
+    margin-bottom: .5em;
 }
 
 .time-value {
-	font-size: 2em;
+    font-size: 2em;
 }
 
 .flight-date {
-	text-align: center;
-	margin: 0 0 0.5em 0;
+    text-align: center;
+    margin: 0 0 0.5em 0;
 }
 
 .calendar-add-container {
-	padding: 1.5em;
-	text-align: center;
+    padding: 1.5em;
+    text-align: center;
 }
