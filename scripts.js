@@ -41,48 +41,59 @@ $( "#search" ).click(function() {  // animate the settings cog onclick
 		let flightNumber = json['request']['flightNumber']['interpreted'];
 		let airlines = json['appendix']['airlines'];
 		// todo add travel time to header
-		let departureAirport = findEntity(arrivalAirportCode, json['appendix']['airports']);
-		let arrivalAirport = findEntity(departureAirportCode, json['appendix']['airports']);
+		let departureAirport = findEntity(departureAirportCode, json['appendix']['airports']);
+		let arrivalAirport = findEntity(arrivalAirportCode, json['appendix']['airports']);
 		$(".arrive .airport-name").text(departureAirport['name']);
 		$(".depart .airport-name").text(arrivalAirport['name']);
-		let departureTimezone = arrivalAirport['timeZoneRegionName'];
-		let arrivalTimezone = departureAirport['timeZoneRegionName'];
+		let departureTimezone = departureAirport['timeZoneRegionName'];
+		let arrivalTimezone = arrivalAirport['timeZoneRegionName'];
 		departureTime = moment(departureTime);
 		arrivalTime = moment(arrivalTime);
-		$(".depart .time-value").text(departureTime.tz(departureTimezone).format('h:mm A'));
-		$(".arrive .time-value").text(arrivalTime.tz(arrivalTimezone).format('h:mm A'));
+		let localDepartureTime = departureTime.tz(departureTimezone).format('h:mm A');
+		let localArrivalTime = arrivalTime.tz(arrivalTimezone).format('h:mm A');
+		$(".depart .time-value").text(localDepartureTime);
+		$(".arrive .time-value").text(localArrivalTime);
 		$(".depart .flight-date").text(departureTime.format('dddd, MMM. Do, YYYY'));
 		$(".arrive .flight-date").text(arrivalTime.format('dddd, MMM. Do, YYYY'));
 		let flightTime = moment.duration(arrivalTime.diff(departureTime));
 
-		// TODO SET LOCAL TIME VALUES -- NOT DONE !!!
-
+		let flightCode = airlinePrefix + flightNumber;
 		$("#results-detail-header").text(
 			findEntity(airlinePrefix, airlines)['name'] + ' ' + airlinePrefix + flightNumber + ' ('+flightTime.get('hours')+'h '+flightTime.get('minutes')+'m)'
 		);  // set table header
+
+		console.log(makeGoogleCalendarURL(flightCode, departureAirport['city'], arrivalAirport['city'], departureAirport['name'], localDepartureTime, localArrivalTime));
 	});
 });
 
+
+function makeGoogleCalendarURL(code, fromCity, toCity, location, depart, arrive) {
+	let urlString = "http://www.google.com/calendar/event?action=TEMPLATE&text=";
+	urlString += encodeURI("Flight to ");
+	urlString += encodeURI(toCity);
+	urlString += encodeURI(" (");
+	urlString += code;
+	urlString += ")&dates=";
+	urlString += "20181122T115500Z/20181122T134400Z"
+	urlString += encodeURI("&details=Departs at ")
+	urlString += encodeURI(depart)
+	urlString += encodeURI(" (local time) from ")
+	urlString += encodeURI(fromCity)
+	urlString += encodeURI(", arrives at ")
+	urlString += encodeURI(arrive)
+	urlString += encodeURI(" (local time) in ")
+	urlString += encodeURI(toCity)
+	urlString += encodeURI("&location=")
+	urlString += encodeURI(location)
+	urlString += "&trp=false"
+	return urlString;
+}
 
 function findEntity(itemCode, itemsList){
 	return $.grep(itemsList, function(item){
 		return item['fs'] == itemCode;
 	})[0];  // only first result
 };
-
-
-// FOR DEVELOPMENT
-// sleep time expects milliseconds
-function sleep (time) {
-  return new Promise((resolve) => setTimeout(resolve, time));
-}
-
-$('#search-bar').val('UA267');
-$('#datepicker').val('11/22/2018');
-sleep(20).then(() => {
-	$('#search').click();
-});
-// END FOR DEVELOPMENT
 
 function dateToGCalFormat(d) {
 	return d.toISOString().replace(/-|:|\.\d\d\d/g,"");
