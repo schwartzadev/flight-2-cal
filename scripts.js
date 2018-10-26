@@ -41,10 +41,16 @@ $( "#search" ).click(function() {  // animate the settings cog onclick
 		let flightNumber = json['request']['flightNumber']['interpreted'];
 		let airlines = json['appendix']['airlines'];
 		// todo add travel time to header
-		$(".arrive .airport-name").text(findEntity(arrivalAirportCode, json['appendix']['airports'])['name']);
-		$(".depart .airport-name").text(findEntity(departureAirportCode, json['appendix']['airports'])['name']);
+		let departureAirport = findEntity(arrivalAirportCode, json['appendix']['airports']);
+		let arrivalAirport = findEntity(departureAirportCode, json['appendix']['airports']);
+		$(".arrive .airport-name").text(departureAirport['name']);
+		$(".depart .airport-name").text(arrivalAirport['name']);
+		let departureTimezone = arrivalAirport['timeZoneRegionName'];
+		let arrivalTimezone = departureAirport['timeZoneRegionName'];
 		departureTime = moment(departureTime);
 		arrivalTime = moment(arrivalTime);
+		$(".depart .time-value").text(departureTime.tz(departureTimezone).format('h:mm A'));
+		$(".arrive .time-value").text(arrivalTime.tz(arrivalTimezone).format('h:mm A'));
 		$(".depart .flight-date").text(departureTime.format('dddd, MMM. Do, YYYY'));
 		$(".arrive .flight-date").text(arrivalTime.format('dddd, MMM. Do, YYYY'));
 		let flightTime = moment.duration(arrivalTime.diff(departureTime));
@@ -70,7 +76,6 @@ function findEntity(itemCode, itemsList){
 function sleep (time) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
-
 
 $('#search-bar').val('UA267');
 $('#datepicker').val('11/22/2018');
