@@ -46,46 +46,58 @@ $( "#search" ).click(function() {  // animate the settings cog onclick
 		$(".arrive .airport-name").text(departureAirport['name']);
 		$(".depart .airport-name").text(arrivalAirport['name']);
 		let departureTimezone = departureAirport['timeZoneRegionName'];
-		let arrivalTimezone = arrivalAirport['timeZoneRegionName'];
+		// let arrivalTimezone = arrivalAirport['timeZoneRegionName'];
 		departureTime = moment(departureTime);
 		arrivalTime = moment(arrivalTime);
-		let localDepartureTime = departureTime.tz(departureTimezone).format('h:mm A');
-		let localArrivalTime = arrivalTime.tz(arrivalTimezone).format('h:mm A');
+		let localDepartureTime = departureTime.format('h:mm A');
+		let localArrivalTime = arrivalTime.format('h:mm A'); // fix timezone conversion
 		$(".depart .time-value").text(localDepartureTime);
 		$(".arrive .time-value").text(localArrivalTime);
 		$(".depart .flight-date").text(departureTime.format('dddd, MMM. Do, YYYY'));
 		$(".arrive .flight-date").text(arrivalTime.format('dddd, MMM. Do, YYYY'));
-		let flightTime = moment.duration(arrivalTime.diff(departureTime));
-
 		let flightCode = airlinePrefix + flightNumber;
+		let flightTime = moment.duration(arrivalTime.tz(departureTimezone).diff(departureTime));  // todo FIX THIS!!
 		$("#results-detail-header").text(
 			findEntity(airlinePrefix, airlines)['name'] + ' ' + airlinePrefix + flightNumber + ' ('+flightTime.get('hours')+'h '+flightTime.get('minutes')+'m)'
 		);  // set table header
-
-		console.log(makeGoogleCalendarURL(flightCode, departureAirport['city'], arrivalAirport['city'], departureAirport['name'], localDepartureTime, localArrivalTime));
+		console.log(makeGoogleCalendarURL(
+			flightCode,
+			departureAirport['city'],
+			arrivalAirport['city'],
+			departureAirport['name'],
+			localDepartureTime,
+			localArrivalTime,
+			departureTimezone,
+			departureTime.format('YYYYMMDD[T]HHmmSS'),
+			arrivalTime.tz(departureTimezone).format('YYYYMMDD[T]HHmmSS')
+		));
 	});
 });
 
 
-function makeGoogleCalendarURL(code, fromCity, toCity, location, depart, arrive) {
+function makeGoogleCalendarURL(code, fromCity, toCity, location, departTimeString, arriveTimeString, departTz, departTime, arrivalTime) {
 	let urlString = "http://www.google.com/calendar/event?action=TEMPLATE&text=";
 	urlString += encodeURI("Flight to ");
 	urlString += encodeURI(toCity);
 	urlString += encodeURI(" (");
 	urlString += code;
 	urlString += ")&dates=";
-	urlString += "20181122T115500Z/20181122T134400Z"
+	urlString += departTime;
+	urlString += "/"
+	urlString += arrivalTime;
 	urlString += encodeURI("&details=Departs at ")
-	urlString += encodeURI(depart)
+	urlString += encodeURI(departTimeString)
 	urlString += encodeURI(" (local time) from ")
 	urlString += encodeURI(fromCity)
 	urlString += encodeURI(", arrives at ")
-	urlString += encodeURI(arrive)
+	urlString += encodeURI(arriveTimeString)
 	urlString += encodeURI(" (local time) in ")
 	urlString += encodeURI(toCity)
 	urlString += encodeURI("&location=")
 	urlString += encodeURI(location)
 	urlString += "&trp=false"
+	urlString += "&ctz="
+	urlString += encodeURI(departTz)
 	return urlString;
 }
 
