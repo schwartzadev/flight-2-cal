@@ -74,6 +74,7 @@ $( "#search" ).click(function() {  // animate the settings cog onclick
                 arrivalTime.tz(departureTimezone).format('YYYYMMDD[T]HHmmSS')
             )
         );
+        $("#response").fadeIn();
     });
 });
 
