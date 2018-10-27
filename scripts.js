@@ -43,10 +43,10 @@ $( "#search" ).click(function() {  // animate the settings cog onclick
         // todo add travel time to header
         let departureAirport = findEntity(departureAirportCode, json['appendix']['airports']);
         let arrivalAirport = findEntity(arrivalAirportCode, json['appendix']['airports']);
-        $(".arrive .airport-name").text(departureAirport['name']);
-        $(".depart .airport-name").text(arrivalAirport['name']);
+        $(".arrive .airport-name").text(arrivalAirport['name']);
+        $(".depart .airport-name").text(departureAirport['name']);
         let departureTimezone = departureAirport['timeZoneRegionName'];
-        // let arrivalTimezone = arrivalAirport['timeZoneRegionName'];
+        let arrivalTimezone = arrivalAirport['timeZoneRegionName'];
         departureTime = moment(departureTime);
         arrivalTime = moment(arrivalTime);
         let localDepartureTime = departureTime.format('h:mm A');
