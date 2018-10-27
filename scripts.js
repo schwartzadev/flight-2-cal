@@ -30,54 +30,74 @@ $( "#search" ).click(function() {  // animate the settings cog onclick
         console.log(json);
         // todo handle requests with no scheduled flights
         // todo handle multiple scheduled flights
-        let flight = json['scheduledFlights'][0];
-        let arrivalAirportCode = flight["arrivalAirportFsCode"];
-        let departureAirportCode = flight["departureAirportFsCode"];
-        let departureTime = flight['departureTime'];
-        let arrivalTime = flight['arrivalTime'];
-        $(".arrive .airport-code").text(arrivalAirportCode); // set departing airport code
-        $(".depart .airport-code").text(departureAirportCode);  // set arriving airport code
-        let airlinePrefix = json['request']['carrier']['fsCode'];
-        let flightNumber = json['request']['flightNumber']['interpreted'];
-        let airlines = json['appendix']['airlines'];
-        // todo add travel time to header
-        let departureAirport = findEntity(departureAirportCode, json['appendix']['airports']);
-        let arrivalAirport = findEntity(arrivalAirportCode, json['appendix']['airports']);
-        $(".arrive .airport-name").text(arrivalAirport['name']);
-        $(".depart .airport-name").text(departureAirport['name']);
-        let departureTimezone = departureAirport['timeZoneRegionName'];
-        let arrivalTimezone = arrivalAirport['timeZoneRegionName'];
-        departureTime = moment(departureTime);
-        arrivalTime = moment(arrivalTime);
-        let localDepartureTime = departureTime.format('h:mm A');
-        let localArrivalTime = arrivalTime.format('h:mm A'); // fix timezone conversion
-        $(".depart .time-value").text(localDepartureTime);
-        $(".arrive .time-value").text(localArrivalTime);
-        $(".depart .flight-date").text(departureTime.format('dddd, MMM. Do, YYYY'));
-        $(".arrive .flight-date").text(arrivalTime.format('dddd, MMM. Do, YYYY'));
-        let flightCode = airlinePrefix + flightNumber;
-        let flightTime = moment.duration(arrivalTime.tz(departureTimezone).diff(departureTime));  // todo FIX THIS!!
-        $("#results-detail-header").text(
-            findEntity(airlinePrefix, airlines)['name'] + ' ' + airlinePrefix + flightNumber + ' ('+flightTime.get('hours')+'h '+flightTime.get('minutes')+'m)'
-        );  // set table header
-        $("#calendar-add").attr(
-            "href",
-            makeGoogleCalendarURL(
-                flightCode,
-                departureAirport['city'],
-                arrivalAirport['city'],
-                departureAirport['name'],
-                localDepartureTime,
-                localArrivalTime,
-                departureTimezone,
-                departureTime.format('YYYYMMDD[T]HHmmSS'),
-                arrivalTime.tz(departureTimezone).format('YYYYMMDD[T]HHmmSS')
-            )
-        );
+        let flights = json['scheduledFlights'];
+        let flight = json['scheduledFlights'][1];
+
+        $.each(flights, function(index, flight) {
+            console.log(flight);
+        });
+
+        makeFlightTable(json, flight);
+
         $("#response").fadeIn();
     });
 });
 
+
+function makeFlightTable(json, flight) {
+    let arrivalAirportCode = flight["arrivalAirportFsCode"];
+    let departureAirportCode = flight["departureAirportFsCode"];
+    let departureTime = flight['departureTime'];
+    let arrivalTime = flight['arrivalTime'];
+
+    let airlinePrefix = json['request']['carrier']['fsCode'];
+    let flightNumber = json['request']['flightNumber']['interpreted'];
+    let airlines = json['appendix']['airlines'];
+    let departureAirport = findEntity(departureAirportCode, json['appendix']['airports']);
+    let arrivalAirport = findEntity(arrivalAirportCode, json['appendix']['airports']);
+
+    let departureTimezone = departureAirport['timeZoneRegionName'];
+    let arrivalTimezone = arrivalAirport['timeZoneRegionName'];
+
+    let flightDurationString = moment.utc(
+        moment.tz(arrivalTime, arrivalTimezone).diff(moment.tz(departureTime, departureTimezone))
+    ).format('HH[h] mm[m]');
+    departureTime = moment(departureTime);
+    arrivalTime = moment(arrivalTime);
+    let localDepartureTime = departureTime.format('h:mm A');
+    let localArrivalTime = arrivalTime.format('h:mm A'); // fix timezone conversion
+
+
+    let flightCode = airlinePrefix + flightNumber;
+
+    $(".arrive .airport-code").text(arrivalAirportCode); // set departing airport code
+    $(".depart .airport-code").text(departureAirportCode);  // set arriving airport code
+    $(".arrive .airport-name").text(arrivalAirport['name']);
+    $(".depart .airport-name").text(departureAirport['name']);
+    $(".depart .time-value").text(localDepartureTime);
+    $(".arrive .time-value").text(localArrivalTime);
+    $(".depart .flight-date").text(departureTime.format('dddd, MMM. Do, YYYY'));
+    $(".arrive .flight-date").text(arrivalTime.format('dddd, MMM. Do, YYYY'));
+    $("#results-detail-header").text(
+        findEntity(airlinePrefix, airlines)['name'] + ' ' + airlinePrefix + flightNumber + ' ('+flightDurationString+')'
+    );  // set table header
+
+
+    $("#calendar-add").attr(
+        "href",
+        makeGoogleCalendarURL(
+            flightCode,
+            departureAirport['city'],
+            arrivalAirport['city'],
+            departureAirport['name'],
+            localDepartureTime,
+            localArrivalTime,
+            departureTimezone,
+            departureTime.format('YYYYMMDD[T]HHmmSS'),
+            arrivalTime.tz(departureTimezone).format('YYYYMMDD[T]HHmmSS')
+        )
+    );
+}
 
 function makeGoogleCalendarURL(code, fromCity, toCity, location, departTimeString, arriveTimeString, departTz, departTime, arrivalTime) {
     let urlString = "http://www.google.com/calendar/event?action=TEMPLATE&text=";
