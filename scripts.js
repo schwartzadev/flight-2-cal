@@ -58,9 +58,8 @@ function makeFlightTable(json, flight, index) {
     let departureTimezone = departureAirport['timeZoneRegionName'];
     let arrivalTimezone = arrivalAirport['timeZoneRegionName'];
 
-    let flightDurationString = moment.utc(
-        moment.tz(arrivalTime, arrivalTimezone).diff(moment.tz(departureTime, departureTimezone))
-    ).format('H[h] m[m]');
+    let flightDurationDiff = moment.tz(arrivalTime, arrivalTimezone).diff(moment.tz(departureTime, departureTimezone));
+    let flightDurationString = moment.utc(flightDurationDiff).format('H[h] m[m]');
     departureTime = moment(departureTime);
     arrivalTime = moment(arrivalTime);
     let localDepartureTime = departureTime.format('h:mm A');
@@ -116,7 +115,7 @@ function makeFlightTable(json, flight, index) {
                 localArrivalTime,
                 departureTimezone,
                 departureTime.format('YYYYMMDD[T]HHmmSS'),
-                arrivalTime.tz(departureTimezone).format('YYYYMMDD[T]HHmmSS') // todo make this accurate
+                departureTime.add(moment.duration(flightDurationDiff).asSeconds(), "seconds").format('YYYYMMDD[T]HHmmSS')
             )
         ).append(
             $("<button>").text("Add Flight to Calendar")
