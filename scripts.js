@@ -24,19 +24,16 @@ $( "#search" ).click(function() {  // animate the settings cog onclick
         appKey: config.apiKey
     });
     requestUrl = 'https://cors.io/?' + requestUrl + '?' + params;
-    console.log(requestUrl);
 
     $.getJSON(requestUrl, function(json) {
-        console.log(json);
         // todo handle requests with no scheduled flights
         let flights = json['scheduledFlights'];
 
         $("#response-anchor").empty();
         $.each(flights, function(index, flight) {
-            console.log(flight);
+            // console.log(flight);
             makeFlightTable(json, flight, index+1);
         });
-
 
         $("#response-anchor div").fadeIn();
     });
