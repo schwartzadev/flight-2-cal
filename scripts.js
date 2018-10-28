@@ -32,8 +32,9 @@ $( "#search" ).click(function() {  // animate the settings cog onclick
         let flights = json['scheduledFlights'];
 
         $("#response-anchor").empty();
+
         $.each(flights, function(index, flight) {
-            makeFlightTable(json, flight, index+1);
+            makeFlightTable(json, flight, index+1, flights.length);
         });
 
         $("#response-anchor div").fadeIn();
@@ -41,7 +42,7 @@ $( "#search" ).click(function() {  // animate the settings cog onclick
 });
 
 
-function makeFlightTable(json, flight, index) {
+function makeFlightTable(json, flight, index, lastFlight) {
     let arrivalAirportCode = flight["arrivalAirportFsCode"];
     let departureAirportCode = flight["departureAirportFsCode"];
     let departureTime = flight['departureTime'];  // in local time
@@ -133,7 +134,11 @@ function makeFlightTable(json, flight, index) {
     );
 
     tableContainer.append(addButton);
-    tableContainer.append($("<hr>"));  // todo style this
+    if (index != lastFlight) {   // only add the divider if the flight is not the last
+        tableContainer.append(
+            $("<div>").addClass('plane-divider').addClass('response-divider').html('<i class="fas fa-plane"></i>')
+        );
+    }
     $("#response-anchor").append(tableContainer);
 }
 

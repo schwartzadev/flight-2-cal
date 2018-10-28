@@ -14,6 +14,7 @@ body {
     padding: 40px 10px;
     width: 90%;
     max-width: 700px;
+    background-color: #fcfcfc;
 }
 
 h2, h3, h4, p, label, input {
@@ -82,13 +83,14 @@ h2, h3, h4, p, label, input {
 }
 
 input[type=text] {
-    padding: 0;
+    padding: 0 5px;
     height: 30px;
     position: relative;
     left: 0;
     outline: none;
-    border: 1px solid #cdcdcd;
-    border-color: rgba(0,0,0,.15);
+    border: 1px solid;
+    border-color: #e0e0e0;
+    border-radius: 3px;
     background-color: white;
     font-size: 16px;
 }
@@ -147,8 +149,12 @@ button:hover {
     box-shadow: 3px 3px 10px -2px rgba(0,0,0,0.4);
 }
 
-th, td {
-    border: 2px solid black;
+th {
+    border-bottom: 2px solid black;
+}
+
+.depart {
+    border-right: 2px solid black;
 }
 
 .results-detail {
@@ -158,6 +164,11 @@ th, td {
 }
 
 @media all and (max-width: 500px) {
+
+    .depart {
+        border-right: none;
+        border-bottom: 2px solid black;
+    }
 
     table.results-detail {
         width: 100%;
@@ -255,6 +266,10 @@ th, td {
 .calendar-add-container {
     padding: 1.5em;
     text-align: center;
+}
+
+.response-divider {
+    margin: 1.5em 0;
 }
 
 .powered-by {
