@@ -37,11 +37,23 @@ body {
 }
 
 .plane-divider::before, .plane-divider::after {
-    content: "\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7";
     padding: 0 10px;
+    content: "\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7";
 }
 
-@media all and (max-width: 500px) {
+@media all and (max-width: 670px) and (min-width: 500px) {
+    .plane-divider::before, .plane-divider::after {
+        content: "\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7";
+    }
+}
+
+@media all and (max-width: 500px) and (min-width: 370px) {
+    .plane-divider::before, .plane-divider::after {
+        content: "\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7";
+    }
+}
+
+@media all and (max-width: 370px) {
     .plane-divider::before, .plane-divider::after {
         content: "\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7";
     }
