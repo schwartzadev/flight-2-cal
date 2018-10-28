@@ -11,10 +11,22 @@ body {
 
 .title {
     text-align: center;
-    font-size: 3.5em;
+    font-size: 4em;
     margin: .25em 0 .1em;
     color: #396fd3;
     font-family: 'Montserrat Subrayada', sans-serif;
+}
+
+@media all and (max-width: 350px) {
+    .title {
+        font-size: 3em;
+    }
+}
+
+@media all and (max-width: 500px) and (min-width: 350px) {
+    .title {
+        font-size: 3.5em;
+    }
 }
 
 .subtitle {
