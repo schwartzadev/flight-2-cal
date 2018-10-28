@@ -66,7 +66,9 @@ function makeFlightTable(json, flight, index, lastFlight) {
     let departureTimezone = departureAirport.timeZoneRegionName;
     let arrivalTimezone = arrivalAirport.timeZoneRegionName;
 
-    let flightDurationDiff = moment.tz(arrivalTime, arrivalTimezone).diff(moment.tz(departureTime, departureTimezone));
+    let flightDurationDiff = moment.tz(arrivalTime, arrivalTimezone).diff(
+        moment.tz(departureTime, departureTimezone)
+    );
     let flightDurationString = moment.utc(flightDurationDiff).format("H[h] m[m]");
 
     departureTime = moment(departureTime);
@@ -78,12 +80,16 @@ function makeFlightTable(json, flight, index, lastFlight) {
 
 
     // BUILD TABLE PROGRAMMATICALLY
-    let tableContainer = $("<div>").attr("id", "response-"+index).attr("style", "display: none;");
+    let tableContainer = $("<div>")
+        .attr("id", "response-"+index)
+        .attr("style", "display: none;");
     let tableRoot = $("<table>").addClass("results-detail");
     let tableHead = $("<thead>").append(
         $("<tr>").append(
             $("<th>").attr("id", "results-detail-header-"+index).attr("colspan", "2").append([
-                $("<span>").addClass("flight-description").text(findEntity(airlinePrefix, airlines).name + " " + airlinePrefix + flightNumber),
+                $("<span>").addClass("flight-description").text(
+                    findEntity(airlinePrefix, airlines).name + " " + airlinePrefix + flightNumber
+                ),
                 " ",
                 $("<span>").addClass("flight-duration-info").text("("+flightDurationString+")")
             ])
@@ -92,10 +98,20 @@ function makeFlightTable(json, flight, index, lastFlight) {
 
     let tableBody = $("<tbody>").append($("<tr>").append([
         $("<td>").addClass("depart").append(
-            buildFlightDataTdHTML("Depart", "fa-plane-departure", departureAirport, departureTime)
+            buildFlightDataTdHTML(
+                "Depart",
+                "fa-plane-departure",
+                departureAirport,
+                departureTime
+            )
         ),
         $("<td>").addClass("arrive").append(
-            buildFlightDataTdHTML("Arrive", "fa-plane-arrival", arrivalAirport, arrivalTime)
+            buildFlightDataTdHTML(
+                "Arrive",
+                "fa-plane-arrival",
+                arrivalAirport,
+                arrivalTime
+            )
         )
     ]));
 
@@ -132,14 +148,14 @@ function makeFlightTable(json, flight, index, lastFlight) {
 }
 
 function buildFlightDataTdHTML(headingName, iconName, airport, time) {
-	// build the <td> element for either the arrival or departure sides of a given flight"s response information
+    // build the <td> element for either the arrival or departure sides of a given flight"s response information
     return makeTableHeading(headingName, iconName)
         .add($("<h1>").addClass("airport-code").text(airport.fs))
         .add($("<p>").addClass("airport-name").text(airport.name))
         .add($("<p>").addClass("flight-time").append(
             makeFlightTimeHTML(dateToMHString(time))
         ))
-        .add($("<p>").addClass("flight-date").text(makeLongDateString(time)))
+        .add($("<p>").addClass("flight-date").text(makeLongDateString(time)));
 }
 
 function makeTableHeading(headingName, iconName) {
@@ -173,27 +189,27 @@ function makeGoogleCalendarURL(code, fromCity, toCity, location, departTimeStrin
     urlString += code;
     urlString += ")&dates=";
     urlString += departTime;
-    urlString += "/"
+    urlString += "/";
     urlString += arrivalTime;
-    urlString += encodeURI("&details=Departs at ")
-    urlString += encodeURI(departTimeString)
-    urlString += encodeURI(" (local time) from ")
-    urlString += encodeURI(fromCity)
-    urlString += encodeURI(", arrives at ")
-    urlString += encodeURI(arriveTimeString)
-    urlString += encodeURI(" (local time) in ")
-    urlString += encodeURI(toCity)
-    urlString += encodeURI("&location=")
-    urlString += encodeURI(location)
-    urlString += "&trp=false"
-    urlString += "&ctz="
-    urlString += encodeURI(departTz)
+    urlString += encodeURI("&details=Departs at ");
+    urlString += encodeURI(departTimeString);
+    urlString += encodeURI(" (local time) from ");
+    urlString += encodeURI(fromCity);
+    urlString += encodeURI(", arrives at ");
+    urlString += encodeURI(arriveTimeString);
+    urlString += encodeURI(" (local time) in ");
+    urlString += encodeURI(toCity);
+    urlString += encodeURI("&location=");
+    urlString += encodeURI(location);
+    urlString += "&trp=false";
+    urlString += "&ctz=";
+    urlString += encodeURI(departTz);
     return urlString;
 }
 
 function dateToMHString(date) {
     // returns the date, formatted in minutes and hours, with AM/PM offset. (i.e. 8:35 AM)
-    return date.format("h:mm A")
+    return date.format("h:mm A");
 }
 
 function findEntity(itemCode, itemsList) {
@@ -201,7 +217,7 @@ function findEntity(itemCode, itemsList) {
     return $.grep(itemsList, function(item){
         return item.fs == itemCode;
     })[0];  // only first result
-};
+}
 
 function dateToGCalFormat(d) {
     // format a date object into a string that can be supplied in a Google Calendar URL
