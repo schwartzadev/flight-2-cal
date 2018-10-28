@@ -69,8 +69,8 @@ function makeFlightTable(json, flight, index) {
     let tableRoot = $("<table>").addClass("results-detail");
     let tableHead = $("<thead>").append(
         $("<tr>").append(
-            $("<th>").attr("id", "results-detail-header-"+index).attr("colspan", "2").text(
-                findEntity(airlinePrefix, airlines)['name'] + ' ' + airlinePrefix + flightNumber + ' ('+flightDurationString+')'
+            $("<th>").attr("id", "results-detail-header-"+index).attr("colspan", "2").html(
+                '<span class="flight-description">'+findEntity(airlinePrefix, airlines)['name'] + ' ' + airlinePrefix + flightNumber + '</span> <span class="flight-duration-info">('+flightDurationString+')</span>'
             )
         )
     );

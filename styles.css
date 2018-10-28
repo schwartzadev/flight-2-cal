@@ -147,9 +147,19 @@ th, td {
 
 .results-detail th {
     padding: 8px;
-    font-weight: 300;
+}
+
+.flight-description {
     font-size: 1.4em;
-    background-color: #d1f2ee;
+    font-weight: 600;
+    color: #396fd3;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    text-decoration: underline;
+}
+
+.flight-duration-info {
+    color: grey;
+    font-weight: normal;
 }
 
 .depart {
