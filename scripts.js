@@ -86,7 +86,7 @@ function makeFlightTable(json, flight, index) {
             $("<p>").addClass("flight-date").text(departureTime.format('dddd, MMM. Do, YYYY')),
         ]),
         $("<td>").addClass("arrive").append([
-            $("<p>").addClass("table-heading").text("Depart"),
+            $("<p>").addClass("table-heading").text("Arrive"),
             $("<h1>").addClass("airport-code").text(arrivalAirportCode),
             $("<p>").addClass("airport-name").text(arrivalAirport['name']),
             $("<p>").addClass("flight-time").append([
