@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat+Subrayada:700');
+
 body {
     overflow-x: auto;
     position: relative;
@@ -5,6 +7,21 @@ body {
     padding: 40px 10px 0;
     width: 90%;
     max-width: 700px;
+}
+
+.title {
+    text-align: center;
+    font-size: 3.5em;
+    margin: .25em 0 .1em;
+    color: #396fd3;
+    font-family: 'Montserrat Subrayada', sans-serif;
+}
+
+.subtitle {
+    text-align: center;
+    color: #6490e2;
+    margin-top: 0;
+    font-style: italic;
 }
 
 input[type=text], label {
