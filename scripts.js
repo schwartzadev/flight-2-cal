@@ -38,7 +38,7 @@ $( "#search" ).click(function() {  // animate the settings cog onclick
 
     $.getJSON(requestUrl, function(json) {
         // todo handle requests with no scheduled flights
-        let flights = json["scheduledFlights"];
+        let flights = json.scheduledFlights;
 
         $("#response-anchor").empty();
 
@@ -52,19 +52,19 @@ $( "#search" ).click(function() {  // animate the settings cog onclick
 
 
 function makeFlightTable(json, flight, index, lastFlight) {
-    let arrivalAirportCode = flight["arrivalAirportFsCode"];
-    let departureAirportCode = flight["departureAirportFsCode"];
-    let departureTime = flight["departureTime"];  // in local time
-    let arrivalTime = flight["arrivalTime"];  // in local time
+    let arrivalAirportCode = flight.arrivalAirportFsCode;
+    let departureAirportCode = flight.departureAirportFsCode;
+    let departureTime = flight.departureTime;  // in local time
+    let arrivalTime = flight.arrivalTime;  // in local time
 
-    let airlinePrefix = json["request"]["carrier"]["fsCode"];
-    let flightNumber = json["request"]["flightNumber"]["interpreted"];
-    let airlines = json["appendix"]["airlines"];
-    let departureAirport = findEntity(departureAirportCode, json["appendix"]["airports"]);
-    let arrivalAirport = findEntity(arrivalAirportCode, json["appendix"]["airports"]);
+    let airlinePrefix = json.request.carrier.fsCode;
+    let flightNumber = json.request.flightNumber.interpreted;
+    let airlines = json.appendix.airlines;
+    let departureAirport = findEntity(departureAirportCode, json.appendix.airports);
+    let arrivalAirport = findEntity(arrivalAirportCode, json.appendix.airports);
 
-    let departureTimezone = departureAirport["timeZoneRegionName"];
-    let arrivalTimezone = arrivalAirport["timeZoneRegionName"];
+    let departureTimezone = departureAirport.timeZoneRegionName;
+    let arrivalTimezone = arrivalAirport.timeZoneRegionName;
 
     let flightDurationDiff = moment.tz(arrivalTime, arrivalTimezone).diff(moment.tz(departureTime, departureTimezone));
     let flightDurationString = moment.utc(flightDurationDiff).format("H[h] m[m]");
@@ -83,7 +83,7 @@ function makeFlightTable(json, flight, index, lastFlight) {
     let tableHead = $("<thead>").append(
         $("<tr>").append(
             $("<th>").attr("id", "results-detail-header-"+index).attr("colspan", "2").append([
-                $("<span>").addClass("flight-description").text(findEntity(airlinePrefix, airlines)["name"] + " " + airlinePrefix + flightNumber),
+                $("<span>").addClass("flight-description").text(findEntity(airlinePrefix, airlines).name + " " + airlinePrefix + flightNumber),
                 " ",
                 $("<span>").addClass("flight-duration-info").text("("+flightDurationString+")")
             ])
@@ -108,9 +108,9 @@ function makeFlightTable(json, flight, index, lastFlight) {
             "href",
             makeGoogleCalendarURL(
                 flightCode,
-                departureAirport["city"],
-                arrivalAirport["city"],
-                departureAirport["name"],
+                departureAirport.city,
+                arrivalAirport.city,
+                departureAirport.name,
                 localDepartureTime,
                 localArrivalTime,
                 departureTimezone,
@@ -134,8 +134,8 @@ function makeFlightTable(json, flight, index, lastFlight) {
 function buildFlightDataTdHTML(headingName, iconName, airport, time) {
 	// build the <td> element for either the arrival or departure sides of a given flight"s response information
     return makeTableHeading(headingName, iconName)
-        .add($("<h1>").addClass("airport-code").text(airport["fs"]))
-        .add($("<p>").addClass("airport-name").text(airport["name"]))
+        .add($("<h1>").addClass("airport-code").text(airport.fs))
+        .add($("<p>").addClass("airport-name").text(airport.name))
         .add($("<p>").addClass("flight-time").append(
             makeFlightTimeHTML(dateToMHString(time))
         ))
@@ -197,9 +197,9 @@ function dateToMHString(date) {
 }
 
 function findEntity(itemCode, itemsList) {
-    // finds a matching item from a list, based on a supplied item["fs"] attribute
+    // finds a matching item from a list, based on a supplied item.fs attribute
     return $.grep(itemsList, function(item){
-        return item["fs"] == itemCode;
+        return item.fs == itemCode;
     })[0];  // only first result
 };
 
