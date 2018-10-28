@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat+Subrayada:700');
 
+/*P: #396fd3
+P-Light: #759dff
+P-Dark: #0045a1
+S: #08d3ba
+S-Light: #64ffec
+S-Dark: #00a18a*/
+
 body {
     overflow-x: auto;
     position: relative;
@@ -31,7 +38,7 @@ body {
 
 .subtitle {
     text-align: center;
-    color: #6490e2;
+    color: #759dff;
     margin-top: 0;
     font-style: italic;
 }
@@ -60,7 +67,7 @@ body {
 }
 
 .plane-divider {
-    color: #0940a7;
+    color: #0045a1;
     text-align: center;
     margin-bottom: 20px;
 }
@@ -92,9 +99,10 @@ input[type=text] {
 }
 
 button {
-    background-color: #0FA896;
+    background-color: #08d3ba;
     border: none;
-    color: #fff;
+    color: #000;
+    font-weight: bold;
     padding: 8px 20px;
     cursor: pointer;
     text-align: center;
@@ -162,12 +170,12 @@ th, td {
     font-weight: normal;
 }
 
-.depart {
-    background-color: #e4f2ff;
+.depart .airport-code {
+    color: #0045a1;
 }
 
-.arrive {
-    background-color: #F2FFFF;
+.arrive .airport-code {
+    color: #00a18a;
 }
 
 .results-detail td {
