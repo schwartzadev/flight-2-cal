@@ -62,6 +62,15 @@ th, td {
     padding: 8px;
     font-weight: 300;
     font-size: 1.4em;
+    background-color: #d1f2ee;
+}
+
+.depart {
+    background-color: #e4f2ff;
+}
+
+.arrive {
+    background-color: #F2FFFF;
 }
 
 .results-detail td {
