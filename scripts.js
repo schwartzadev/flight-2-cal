@@ -62,8 +62,8 @@ function makeFlightTable(json, flight, index) {
     departureTime = moment(departureTime);
     arrivalTime = moment(arrivalTime);
 
-    let localDepartureTime = departureTime.format('h:mm A');
-    let localArrivalTime = arrivalTime.format('h:mm A');
+    let localDepartureTime = dateToMHString(departureTime);
+    let localArrivalTime = dateToMHString(arrivalTime);
     let flightCode = airlinePrefix + flightNumber;
 
 
@@ -138,7 +138,7 @@ function makeFlightTable(json, flight, index) {
 }
 
 function makeGoogleCalendarURL(code, fromCity, toCity, location, departTimeString, arriveTimeString, departTz, departTime, arrivalTime) {
-	// builds and returns a url to Google Calendar for an event with the given parameters
+    // builds and returns a url to Google Calendar for an event with the given parameters
     let urlString = "http://www.google.com/calendar/event?action=TEMPLATE&text=";
     urlString += encodeURI("Flight to ");
     urlString += encodeURI(toCity);
@@ -164,25 +164,30 @@ function makeGoogleCalendarURL(code, fromCity, toCity, location, departTimeStrin
     return urlString;
 }
 
+function dateToMHString(date) {
+    // returns the date, formatted in minutes and hours, with AM/PM offset. (i.e. 8:35 AM)
+    return date.format('h:mm A')
+}
+
 function findEntity(itemCode, itemsList) {
-	// finds a matching item from a list, based on a supplied item['fs'] attribute
+    // finds a matching item from a list, based on a supplied item['fs'] attribute
     return $.grep(itemsList, function(item){
         return item['fs'] == itemCode;
     })[0];  // only first result
 };
 
 function dateToGCalFormat(d) {
-	// format a date object into a string that can be supplied in a Google Calendar URL
+    // format a date object into a string that can be supplied in a Google Calendar URL
     return d.toISOString().replace(/-|:|\.\d\d\d/g,"");
 }
 
 function dateValidation(d) {
-	// check if a date is valid
+    // check if a date is valid
     return !!new Date(d).getTime();
 }
 
 function matchExact(r, str) {
-	// check if a regex pattern matches a string **exactly**
+    // check if a regex pattern matches a string **exactly**
     var match = str.match(r);
     return match != null && str == match[0];
 }
