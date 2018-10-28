@@ -13,9 +13,11 @@ $( "#search" ).click(function() {  // animate the settings cog onclick
     }
 
     let fullDate = $('#datepicker').datepicker('getDate');
-    let airlinePrefix = flightCode.match(reg)[1];
+
+    let airlinePrefix = flightCode.match(reg)[1]; // parse flight code
     let flightNumber = flightCode.match(reg)[2]
-    let month = parseInt(fullDate.getMonth())+1;
+
+    let month = parseInt(fullDate.getMonth())+1;  // requires an offset by 1
     let day = fullDate.getDate();
     let year = fullDate.getFullYear();
     let requestUrl = 'https://api.flightstats.com/flex/schedules/rest/v1/json/flight/' + airlinePrefix + '/' + flightNumber + '/departing/'+ year + '/' + month + '/' + day;
@@ -23,7 +25,7 @@ $( "#search" ).click(function() {  // animate the settings cog onclick
         appId: config.appId,
         appKey: config.apiKey
     });
-    requestUrl = 'https://cors.io/?' + requestUrl + '?' + params;
+    requestUrl = 'https://cors.io/?' + requestUrl + '?' + params;  // bypass CORS constraints via proxy
 
     $.getJSON(requestUrl, function(json) {
         // todo handle requests with no scheduled flights
@@ -31,7 +33,6 @@ $( "#search" ).click(function() {  // animate the settings cog onclick
 
         $("#response-anchor").empty();
         $.each(flights, function(index, flight) {
-            // console.log(flight);
             makeFlightTable(json, flight, index+1);
         });
 
@@ -43,8 +44,8 @@ $( "#search" ).click(function() {  // animate the settings cog onclick
 function makeFlightTable(json, flight, index) {
     let arrivalAirportCode = flight["arrivalAirportFsCode"];
     let departureAirportCode = flight["departureAirportFsCode"];
-    let departureTime = flight['departureTime'];
-    let arrivalTime = flight['arrivalTime'];
+    let departureTime = flight['departureTime'];  // in local time
+    let arrivalTime = flight['arrivalTime'];  // in local time
 
     let airlinePrefix = json['request']['carrier']['fsCode'];
     let flightNumber = json['request']['flightNumber']['interpreted'];
@@ -57,10 +58,12 @@ function makeFlightTable(json, flight, index) {
 
     let flightDurationDiff = moment.tz(arrivalTime, arrivalTimezone).diff(moment.tz(departureTime, departureTimezone));
     let flightDurationString = moment.utc(flightDurationDiff).format('H[h] m[m]');
+
     departureTime = moment(departureTime);
     arrivalTime = moment(arrivalTime);
+
     let localDepartureTime = departureTime.format('h:mm A');
-    let localArrivalTime = arrivalTime.format('h:mm A'); // fix timezone conversion
+    let localArrivalTime = arrivalTime.format('h:mm A');
     let flightCode = airlinePrefix + flightNumber;
 
 
@@ -121,8 +124,8 @@ function makeFlightTable(json, flight, index) {
                 localDepartureTime,
                 localArrivalTime,
                 departureTimezone,
-                departureTime.format('YYYYMMDD[T]HHmmSS'),
-                departureTime.add(moment.duration(flightDurationDiff).asSeconds(), "seconds").format('YYYYMMDD[T]HHmmSS')
+                dateToGCalFormat(departureTime),
+                dateToGCalFormat(departureTime.add(moment.duration(flightDurationDiff).asSeconds(), "seconds"))
             )
         ).append(
             $("<button>").text("Add Flight to Calendar")
@@ -130,11 +133,12 @@ function makeFlightTable(json, flight, index) {
     );
 
     tableContainer.append(addButton);
-    tableContainer.append($("<hr>"));
+    tableContainer.append($("<hr>"));  // todo style this
     $("#response-anchor").append(tableContainer);
 }
 
 function makeGoogleCalendarURL(code, fromCity, toCity, location, departTimeString, arriveTimeString, departTz, departTime, arrivalTime) {
+	// builds and returns a url to Google Calendar for an event with the given parameters
     let urlString = "http://www.google.com/calendar/event?action=TEMPLATE&text=";
     urlString += encodeURI("Flight to ");
     urlString += encodeURI(toCity);
@@ -160,21 +164,25 @@ function makeGoogleCalendarURL(code, fromCity, toCity, location, departTimeStrin
     return urlString;
 }
 
-function findEntity(itemCode, itemsList){
+function findEntity(itemCode, itemsList) {
+	// finds a matching item from a list, based on a supplied item['fs'] attribute
     return $.grep(itemsList, function(item){
         return item['fs'] == itemCode;
     })[0];  // only first result
 };
 
 function dateToGCalFormat(d) {
+	// format a date object into a string that can be supplied in a Google Calendar URL
     return d.toISOString().replace(/-|:|\.\d\d\d/g,"");
 }
 
 function dateValidation(d) {
+	// check if a date is valid
     return !!new Date(d).getTime();
 }
 
 function matchExact(r, str) {
+	// check if a regex pattern matches a string **exactly**
     var match = str.match(r);
     return match != null && str == match[0];
 }
