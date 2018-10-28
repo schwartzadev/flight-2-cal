@@ -15,12 +15,21 @@ $( "#search" ).click(function() {  // animate the settings cog onclick
     let fullDate = $("#datepicker").datepicker("getDate");
 
     let airlinePrefix = flightCode.match(reg)[1]; // parse flight code
-    let flightNumber = flightCode.match(reg)[2]
+    let flightNumber = flightCode.match(reg)[2];
 
     let month = parseInt(fullDate.getMonth())+1;  // requires an offset by 1
     let day = fullDate.getDate();
     let year = fullDate.getFullYear();
-    let requestUrl = "https://api.flightstats.com/flex/schedules/rest/v1/json/flight/" + airlinePrefix + "/" + flightNumber + "/departing/"+ year + "/" + month + "/" + day;
+    let requestUrl = "https://api.flightstats.com/flex/schedules/rest/v1/json/flight/";
+    requestUrl += airlinePrefix;
+    requestUrl += "/";
+    requestUrl += flightNumber;
+    requestUrl += "/departing/";
+    requestUrl += year;
+    requestUrl += "/";
+    requestUrl += month;
+    requestUrl += "/";
+    requestUrl += day;
     let params = jQuery.param({
         appId: config.appId,
         appKey: config.apiKey
