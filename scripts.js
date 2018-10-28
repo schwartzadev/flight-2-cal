@@ -82,32 +82,12 @@ function makeFlightTable(json, flight, index, lastFlight) {
     );
 
     let tableBody = $('<tbody>').append($("<tr>").append([
-        $("<td>").addClass("depart").append([
-            $("<p>").addClass("table-heading").text("Depart").prepend($("<i>")
-                .addClass('fas')
-                .addClass('fa-plane-departure')
-                .addClass('flight-icon')
-            ),
-            $("<h1>").addClass("airport-code").text(departureAirportCode),
-            $("<p>").addClass("airport-name").text(departureAirport['name']),
-            $("<p>").addClass("flight-time").append([
-                $("<span>").addClass("time-value").text(localDepartureTime), ' ', $("<span>").addClass("local-time").text("(local time)")
-            ]),
-            $("<p>").addClass("flight-date").text(departureTime.format('dddd, MMM. Do, YYYY')),
-        ]),
-        $("<td>").addClass("arrive").append([
-            $("<p>").addClass("table-heading").text("Arrive").prepend($("<i>")
-                .addClass('fas')
-                .addClass('fa-plane-arrival')
-                .addClass('flight-icon')
-            ),
-            $("<h1>").addClass("airport-code").text(arrivalAirportCode),
-            $("<p>").addClass("airport-name").text(arrivalAirport['name']),
-            $("<p>").addClass("flight-time").append([
-                $("<span>").addClass("time-value").text(localArrivalTime), ' ', $("<span>").addClass("local-time").text("(local time)")
-            ]),
-            $("<p>").addClass("flight-date").text(arrivalTime.format('dddd, MMM. Do, YYYY')),
-        ])
+        $("<td>").addClass("depart").append(
+            buildFlightDataTdHTML("Depart", "fa-plane-departure", departureAirport, departureTime)
+        ),
+        $("<td>").addClass("arrive").append(
+            buildFlightDataTdHTML("Arrive", "fa-plane-arrival", arrivalAirport, arrivalTime)
+        )
     ]));
 
     tableRoot.append(tableHead);
@@ -140,6 +120,39 @@ function makeFlightTable(json, flight, index, lastFlight) {
         );
     }
     $("#response-anchor").append(tableContainer);
+}
+
+function buildFlightDataTdHTML(headingName, iconName, airport, time) {
+	// build the <td> element for either the arrival or departure sides of a given flight's response information
+    return makeTableHeading(headingName, iconName)
+        .add($("<h1>").addClass("airport-code").text(airport['fs']))
+        .add($("<p>").addClass("airport-name").text(airport['name']))
+        .add($("<p>").addClass("flight-time").append(
+            makeFlightTimeHTML(dateToMHString(time))
+        ))
+        .add($("<p>").addClass("flight-date").text(makeLongDateString(time)))
+}
+
+function makeTableHeading(headingName, iconName) {
+    // make a table heading based off of a name (either 'Arrival' or 'Departure') and a FA icon name
+    return $("<p>").addClass("table-heading").text(headingName).prepend(
+        $("<i>").addClass('fas').addClass(iconName).addClass('flight-icon')
+    );
+}
+
+function makeLongDateString(date) {
+    // return a string in a format like: Monday, Oct. 29th, 2018
+    return date.format('dddd, MMM. Do, YYYY');
+}
+
+function makeFlightTimeHTML(localTime) {
+    // generated the HTML for the .flight-time field in either .depart or .arrive
+    return $("<span>")
+        .addClass("time-value")
+        .text(localTime)
+        .add(
+            $("<span>").addClass("local-time").text("(local time)")
+        );
 }
 
 function makeGoogleCalendarURL(code, fromCity, toCity, location, departTimeString, arriveTimeString, departTz, departTime, arrivalTime) {

@@ -256,6 +256,7 @@ th {
 
 .time-value {
     font-size: 2em;
+    padding-right: 5px;
 }
 
 .flight-date {
