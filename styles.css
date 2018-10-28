@@ -75,6 +75,30 @@ th, td {
     margin: 0 auto;
 }
 
+@media all and (max-width: 500px) {
+
+    table.results-detail {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    table.results-detail th,
+    table.results-detail td {
+        padding: 10px 0;
+        width: 100%;
+    }
+
+    .results-detail table,
+    .results-detail thead,
+    .results-detail tbody,
+    .results-detail th,
+    .results-detail td,
+    .results-detail tr {
+        display: block;
+        margin-top: 2px;
+    }
+}
+
 .results-detail th {
     padding: 8px;
     font-weight: 300;
