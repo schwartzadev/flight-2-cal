@@ -125,6 +125,12 @@ th, td {
     font-size: 1.4em;
 }
 
+.flight-icon {
+	padding-right: 5px;
+    font-size: .95em;
+    vertical-align: middle;
+}
+
 .airport-code {
     font-size: 4em;
     text-align: center;
