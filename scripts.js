@@ -42,9 +42,19 @@ $("#search").click(function () { // animate the settings cog onclick
 
         $("#response-anchor").empty();
 
-        $.each(flights, function (index, flight) {
-            makeFlightTable(json, flight, index + 1, flights.length);
-        });
+        if (flights.length != 0) {
+            $.each(flights, function (index, flight) {
+                makeFlightTable(json, flight, index + 1, flights.length);
+            });
+        } else {  // no matching flights
+            $("#response-anchor").append([
+                $("<p>").addClass("error").html("No matching flights were found.<br>Try one of the following:"),
+                $("<ul>").addClass("error-suggestion").append([
+                    $("<li>").text("Confirm that the date is accurate."),
+                    $("<li>").text("Double check the flight code."),
+                ])
+            ]);
+        }
 
         $("#response-anchor div").fadeIn();
     });
