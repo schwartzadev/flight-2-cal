@@ -24,6 +24,28 @@ body {
     font-style: italic;
 }
 
+.plane-divider::before, .plane-divider::after {
+    content: "\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7";
+    padding: 0 10px;
+}
+
+@media all and (max-width: 500px) {
+    .plane-divider::before, .plane-divider::after {
+        content: "\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7\00B7";
+    }
+}
+
+.plane-divider {
+    color: #0940a7;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.plane-divider i {
+    padding: 0 5px;
+}
+
+
 input[type=text], label {
     font-family: Arial, Helvetica, sans-serif;
 }
