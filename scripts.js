@@ -1,13 +1,13 @@
-$( "#search" ).click(function() {  // animate the settings cog onclick
+$("#search").click(function () { // animate the settings cog onclick
     let flightCode = $("#search-bar").val();
     let reg = /([A-Za-z][A-Za-z]?[A-Za-z])([0-9]{1,4})/;
 
-    if ( !(matchExact(reg, flightCode)) ) {  // check to prevent invalid flight codes
+    if (!(matchExact(reg, flightCode))) { // check to prevent invalid flight codes
         alert("The format for the flight code is invalid.");
         return false;
     }
 
-    if ( !(dateValidation($("#datepicker").val())) ) {  // check to prevent invalid date inputs
+    if (!(dateValidation($("#datepicker").val()))) { // check to prevent invalid date inputs
         alert("The format for the date is invalid.");
         return false;
     }
@@ -17,7 +17,7 @@ $( "#search" ).click(function() {  // animate the settings cog onclick
     let airlinePrefix = flightCode.match(reg)[1]; // parse flight code
     let flightNumber = flightCode.match(reg)[2];
 
-    let month = parseInt(fullDate.getMonth())+1;  // requires an offset by 1
+    let month = parseInt(fullDate.getMonth()) + 1; // requires an offset by 1
     let day = fullDate.getDate();
     let year = fullDate.getFullYear();
     let requestUrl = "https://api.flightstats.com/flex/schedules/rest/v1/json/flight/";
@@ -34,16 +34,16 @@ $( "#search" ).click(function() {  // animate the settings cog onclick
         appId: config.appId,
         appKey: config.apiKey
     });
-    requestUrl = "https://cors.io/?" + requestUrl + "?" + params;  // bypass CORS constraints via proxy
+    requestUrl = "https://cors.io/?" + requestUrl + "?" + params; // bypass CORS constraints via proxy
 
-    $.getJSON(requestUrl, function(json) {
+    $.getJSON(requestUrl, function (json) {
         // todo handle requests with no scheduled flights
         let flights = json.scheduledFlights;
 
         $("#response-anchor").empty();
 
-        $.each(flights, function(index, flight) {
-            makeFlightTable(json, flight, index+1, flights.length);
+        $.each(flights, function (index, flight) {
+            makeFlightTable(json, flight, index + 1, flights.length);
         });
 
         $("#response-anchor div").fadeIn();
@@ -54,8 +54,8 @@ $( "#search" ).click(function() {  // animate the settings cog onclick
 function makeFlightTable(json, flight, index, lastFlight) {
     let arrivalAirportCode = flight.arrivalAirportFsCode;
     let departureAirportCode = flight.departureAirportFsCode;
-    let departureTime = flight.departureTime;  // in local time
-    let arrivalTime = flight.arrivalTime;  // in local time
+    let departureTime = flight.departureTime; // in local time
+    let arrivalTime = flight.arrivalTime; // in local time
 
     let airlinePrefix = json.request.carrier.fsCode;
     let flightNumber = json.request.flightNumber.interpreted;
@@ -81,17 +81,17 @@ function makeFlightTable(json, flight, index, lastFlight) {
 
     // BUILD TABLE PROGRAMMATICALLY
     let tableContainer = $("<div>")
-        .attr("id", "response-"+index)
+        .attr("id", "response-" + index)
         .attr("style", "display: none;");
     let tableRoot = $("<table>").addClass("results-detail");
     let tableHead = $("<thead>").append(
         $("<tr>").append(
-            $("<th>").attr("id", "results-detail-header-"+index).attr("colspan", "2").append([
+            $("<th>").attr("id", "results-detail-header-" + index).attr("colspan", "2").append([
                 $("<span>").addClass("flight-description").text(
                     findEntity(airlinePrefix, airlines).name + " " + airlinePrefix + flightNumber
                 ),
                 " ",
-                $("<span>").addClass("flight-duration-info").text("("+flightDurationString+")")
+                $("<span>").addClass("flight-duration-info").text("(" + flightDurationString + ")")
             ])
         )
     );
@@ -139,7 +139,7 @@ function makeFlightTable(json, flight, index, lastFlight) {
     );
 
     tableContainer.append(addButton);
-    if (index != lastFlight) {   // only add the divider if the flight is not the last
+    if (index != lastFlight) { // only add the divider if the flight is not the last
         tableContainer.append(
             $("<div>").addClass("plane-divider").addClass("response-divider").html("<i class=\"fas fa-plane\"></i>")
         );
@@ -214,14 +214,14 @@ function dateToMHString(date) {
 
 function findEntity(itemCode, itemsList) {
     // finds a matching item from a list, based on a supplied item.fs attribute
-    return $.grep(itemsList, function(item){
+    return $.grep(itemsList, function (item) {
         return item.fs == itemCode;
-    })[0];  // only first result
+    })[0]; // only first result
 }
 
 function dateToGCalFormat(d) {
     // format a date object into a string that can be supplied in a Google Calendar URL
-    return d.toISOString().replace(/-|:|\.\d\d\d/g,"");
+    return d.toISOString().replace(/-|:|\.\d\d\d/g, "");
 }
 
 function dateValidation(d) {
