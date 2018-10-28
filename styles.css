@@ -172,8 +172,9 @@ th, td {
 }
 
 .flight-icon {
-	padding-right: 5px;
-    font-size: .95em;
+    padding-right: 5px;
+    padding-bottom: .2em;
+    font-size: .85em;
     vertical-align: middle;
 }
 
