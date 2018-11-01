@@ -34,7 +34,7 @@ $("#search").click(function () { // animate the settings cog onclick
         appId: config.appId,
         appKey: config.apiKey
     });
-    requestUrl = "https://cors.io/?" + requestUrl + "?" + params; // bypass CORS constraints via proxy
+    requestUrl = "https://cors-anywhere.herokuapp.com/" + requestUrl + "?" + params; // bypass CORS constraints via proxy
 
     $.getJSON(requestUrl, function (json) {
         // todo handle requests with no scheduled flights
