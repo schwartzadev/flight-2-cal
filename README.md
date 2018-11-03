@@ -1,7 +1,7 @@
 # Flights --> Google Calendar Events
 A webapp to generate Google Calendar events based off of flight information
 
-## Desciption
+## Description
 The app shows results for a user's flight like this:
 
 <img src="images/tablet-view.png" width="600" />
